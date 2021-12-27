@@ -1,378 +1,467 @@
 // 元子类
 
-.r-flex-between{
-  @include flex-between();
+.r-flex-between {
+  @include flex-between;
 }
 
-.r-flex-center{
-  @include flex-center();
-  .flex-item{
+.r-flex-center {
+  @include flex-center;
+
+  .flex-item {
     flex: 1;
   }
 }
+
 // 占满剩余部分
-.r-flex-item-content{
-  flex: 1;
-  line-height: 1.2em;
-  padding-right: 5px;
+.r-flex-item-content {
   box-sizing: border-box;
+  flex: 1;
+  padding-right: 5px;
+  line-height: 1.2em;
   word-wrap: break-word;
   white-space: normal;
 }
+
 // 顶部对齐
-.r-flex-y-start{
+.r-flex-y-start {
   display: flex;
   align-items: flex-start;
 }
+
 // 居中对齐
-.r-flex-y-center{
+.r-flex-y-center {
   display: flex;
   align-items: center;
 }
 
-.r-link{
+.r-link {
   color: $color-link;
   cursor: pointer;
-  &:hover{
-    text-decoration: underline
-  }
-}
-.r-link-primary{
-  color: $color-primary;
-  cursor: pointer;
-  &:hover{
-    text-decoration: underline
+
+  &:hover {
+    text-decoration: underline;
   }
 }
 
-.r-disabled{
+.r-link-primary {
+  color: $color-primary;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.r-disabled {
   color: $color-text-placeholder !important;
 }
 
-.r-text-title{
+.r-text-title {
   font-size: 18px;
   color: $color-title;
 }
-.r-text-description{
+
+.r-text-description {
   font-size: 12px;
   line-height: 1.4em;
   color: $color-text-description;
 }
-.r-text-description-color{
+
+.r-text-description-color {
   color: $color-text-description;
 }
-.r-text-warning{
+
+.r-text-warning {
   font-size: 12px;
   line-height: 1.4em;
   color: $color-warning;
 }
-.r-text-danger{
+
+.r-text-danger {
   font-size: 12px;
   line-height: 1.4em;
   color: $color-danger;
 }
-.r-text-hover:hover{
+
+.r-text-hover:hover {
   color: $color-primary;
   cursor: pointer;
 }
-.r-bg-hover:hover{
+
+.r-bg-hover:hover {
   background-color: $bg-color-active;
-  .el-loading-mask{
+
+  .el-loading-mask {
     background-color: $bg-color-active;
   }
 }
 
-.r-display-none{
+.r-display-none {
   display: none !important;
 }
-.r-display-hover-show{
+
+.r-display-hover-show {
   display: none;
-  &:hover{
+
+  &:hover {
     display: inherit;
   }
 }
 
-.r-border-box{
+.r-border-box {
   box-sizing: border-box;
 }
 
 .r-font-size-sm-s {
   font-size: $font-size-sm-s;
 }
+
 .r-font-size-sm {
   font-size: $font-size-sm;
 }
+
 .r-font-size {
   font-size: $font-size;
 }
+
 .r-font-size-x {
   font-size: $font-size-x;
 }
+
 .r-font-size-lg {
   font-size: $font-size-lg;
 }
+
 .r-font-size-lg-x {
   font-size: $font-size-lg-x;
 }
 
-.r-border-top{
+.r-border-top {
   border-top: 1px solid $color-border;
 }
-.r-border-bottom{
-  border-bottom: 1px solid $color-border;
-}
-.r-border-left{
-  border-top: 1px solid $color-border;
-}
-.r-border-right{
-  border-bottom: 1px solid $color-border;
-}
-.r-border{
+
+.r-border-bottom {
   border-bottom: 1px solid $color-border;
 }
 
-.r-margin-top{
+.r-border-left {
+  border-top: 1px solid $color-border;
+}
+
+.r-border-right {
+  border-bottom: 1px solid $color-border;
+}
+
+.r-border {
+  border-bottom: 1px solid $color-border;
+}
+
+.r-margin-top {
   margin-top: 8px;
 }
-.r-margin-right{
+
+.r-margin-right {
   margin-right: 8px;
 }
-.r-margin-bottom{
+
+.r-margin-bottom {
   margin-bottom: 8px;
 }
-.r-margin-left{
+
+.r-margin-left {
   margin-left: 8px;
 }
-.r-margin-lf{
-  margin-left: 8px;
+
+.r-margin-lf {
   margin-right: 8px;
+  margin-left: 8px;
 }
-.r-margin-tb{
+
+.r-margin-tb {
   margin-top: 8px;
   margin-bottom: 8px;
 }
-.r-margin{
+
+.r-margin {
   margin: 8px;
 }
-.r-margin-top-mini{
+
+.r-margin-top-mini {
   margin-top: 5px;
 }
-.r-margin-right-mini{
+
+.r-margin-right-mini {
   margin-right: 5px;
 }
-.r-margin-bottom-mini{
+
+.r-margin-bottom-mini {
   margin-bottom: 5px;
 }
-.r-margin-left-mini{
+
+.r-margin-left-mini {
   margin-left: 5px;
 }
-.r-margin-lf-mini{
-  margin-left: 5px;
+
+.r-margin-lf-mini {
   margin-right: 5px;
+  margin-left: 5px;
 }
-.r-margin-tb-mini{
+
+.r-margin-tb-mini {
   margin-top: 5px;
   margin-bottom: 5px;
 }
-.r-margin-mini{
+
+.r-margin-mini {
   margin: 5px;
 }
-.r-margin-top-lg{
+
+.r-margin-top-lg {
   margin-top: 16px;
 }
-.r-margin-right-lg{
+
+.r-margin-right-lg {
   margin-right: 16px;
 }
-.r-margin-bottom-lg{
+
+.r-margin-bottom-lg {
   margin-bottom: 16px;
 }
-.r-margin-left-lg{
+
+.r-margin-left-lg {
   margin-left: 16px;
 }
-.r-margin-lf-lg{
-  margin-left: 16px;
+
+.r-margin-lf-lg {
   margin-right: 16px;
+  margin-left: 16px;
 }
-.r-margin-tb-lg{
+
+.r-margin-tb-lg {
   margin-top: 16px;
   margin-bottom: 16px;
 }
-.r-margin-lg{
+
+.r-margin-lg {
   margin: 16px;
 }
-.r-no-margin{
+
+.r-no-margin {
   margin: 0 !important;
 }
 
-.r-padding-top{
+.r-padding-top {
   padding-top: 10px;
 }
-.r-padding-right{
+
+.r-padding-right {
   padding-right: 10px;
 }
-.r-padding-bottom{
+
+.r-padding-bottom {
   padding-bottom: 10px;
 }
-.r-padding-left{
+
+.r-padding-left {
   padding-left: 10px;
 }
-.r-padding-lf{
-  padding-left: 10px;
+
+.r-padding-lf {
   padding-right: 10px;
+  padding-left: 10px;
 }
-.r-padding-tb{
+
+.r-padding-tb {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-.r-padding{
+
+.r-padding {
   padding: 10px;
 }
-.r-padding-mini{
+
+.r-padding-mini {
   padding: 5px;
 }
-.r-padding-top-mini{
+
+.r-padding-top-mini {
   padding-top: 5px;
 }
-.r-padding-right-mini{
+
+.r-padding-right-mini {
   padding-right: 5px;
 }
-.r-padding-bottom-mini{
+
+.r-padding-bottom-mini {
   padding-bottom: 5px;
 }
-.r-padding-left-mini{
+
+.r-padding-left-mini {
   padding-left: 5px;
 }
-.r-padding-lf-mini{
-  padding-left: 5px;
+
+.r-padding-lf-mini {
   padding-right: 5px;
+  padding-left: 5px;
 }
-.r-padding-tb-mini{
+
+.r-padding-tb-mini {
   padding-top: 5px;
   padding-bottom: 5px;
 }
-.r-padding-mini{
+
+.r-padding-mini {
   padding: 5px;
 }
-.r-padding-large{
+
+.r-padding-large {
   padding: 20px;
 }
-.r-padding-top-large{
+
+.r-padding-top-large {
   padding-top: 20px;
 }
-.r-padding-right-large{
+
+.r-padding-right-large {
   padding-right: 20px;
 }
-.r-padding-bottom-large{
+
+.r-padding-bottom-large {
   padding-bottom: 20px;
 }
-.r-padding-left-large{
+
+.r-padding-left-large {
   padding-left: 20px;
 }
-.r-padding-lf-large{
-  padding-left: 20px;
+
+.r-padding-lf-large {
   padding-right: 5px;
+  padding-left: 20px;
 }
-.r-padding-tb-large{
+
+.r-padding-tb-large {
   padding-top: 20px;
   padding-bottom: 5px;
 }
-.r-padding-large{
+
+.r-padding-large {
   padding: 20px;
 }
-.r-no-padding{
+
+.r-no-padding {
   padding: 0;
 }
-.r-line-height{
+
+.r-line-height {
   height: 30px;
   line-height: 30px;
 }
 
-.r-width-100{
+.r-width-100 {
   width: 100%;
 }
+
 // el-col内容为空时不展示，需要占位时，里面放一个元素来占位
-.r-empty-col{
+.r-empty-col {
   width: 0;
   height: 1px;
 }
 
-.r-text-aligin-left{
+.r-text-aligin-left {
   text-align: left;
 }
-.r-text-aligin-center{
+
+.r-text-aligin-center {
   text-align: center;
 }
-.r-text-aligin-right{
+
+.r-text-aligin-right {
   text-align: right;
 }
 
-.r-color-primary{
+.r-color-primary {
   color: $color-primary;
 }
-.r-color-success{
+
+.r-color-success {
   color: $color-success;
 }
-.r-color-warning{
+
+.r-color-warning {
   color: $color-warning;
 }
-.r-color-danger{
+
+.r-color-danger {
   color: $color-danger;
 }
-.r-color-info{
+
+.r-color-info {
   color: $color-info;
 }
 
 // 表单选中tag list
 .r-form-selected-tag-list {
   margin-top: 6px;
-  .el-tag{
+
+  .el-tag {
     margin-right: 5px;
   }
 }
 
-.r-text-ellipsis{
-  @include ellipsis();
+.r-text-ellipsis {
+  @include ellipsis;
 }
-.r-text-nowrap{
+
+.r-text-nowrap {
   white-space: nowrap;
 }
-.r-text-wrap{
+
+.r-text-wrap {
   white-space: wrap;
 }
 
-.r-cursor-default{
+.r-cursor-default {
   cursor: default;
 }
-.r-cursor-move{
+
+.r-cursor-move {
   cursor: move;
 }
-.r-cursor-disabled{
+
+.r-cursor-disabled {
   cursor: not-allowed;
 }
-.r-cursor-pointer{
+
+.r-cursor-pointer {
   cursor: pointer;
 }
 
-.r-icon{
+.r-icon {
   position: relative;
 }
-.r-icon-center{
+
+.r-icon-center {
   display: inline-block;
-  @include flex-center();
+
+  @include flex-center;
 }
-.r-icon-size_mini{
+
+.r-icon-size_mini {
   width: 16px;
   height: 16px;
 }
-.r-icon-size_small{
+
+.r-icon-size_small {
   width: 24px;
   height: 24px;
 }
-.r-icon-size{
+
+.r-icon-size {
   width: 30px;
   height: 30px;
 }
-.r-icon-size_large{
+
+.r-icon-size_large {
   width: 36px;
   height: 36px;
 }

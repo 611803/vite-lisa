@@ -1,59 +1,65 @@
 /*
  * @Descripttion:
  * @Author: pujianguo
- * @Date: 2021-06-29 11:02:31
+ * @Date: 2021-12-28 02:04:06
  */
-
+import { defineStore } from 'pinia'
 import storage from 'lisa/utils/storage'
 
-const state = {
-  menuCollapsed: false,
-  token: '',
-  pageOption: {},
-}
+const useLisaStore = defineStore({
+  id: 'lisa',
+  state: () => ({
+    token: '',
+    userInfo: {},
+    menuCollapsed: false,
+    pageOption: {},
 
-export default {
-  namespaced: true,
-  state,
-  actions: {
+  }),
+  getters: {
+    // total (state) {
+    //   const counter = useCounterStore()
+    //   return counter.number * state.money
+    // },
   },
-  mutations: {
-    SET_TOKEN: (state, token) => {
-      state.token = token
-      storage.setToken(token)
+  actions: {
+    setLogin ({ token, ...user }) {
+      this.$state.token = token
+      this.$state.userInfo = user
     },
     // 设置菜单收缩
-    SET_MENU_COLLAPSED (state, payload) {
-      storage.setMenuCollapsed(payload)
-      state.menuCollapsed = payload
+    setMenuCollapsed (payload) {
+      this.$state.state.menuCollapsed = payload
     },
-    SET_PAGE_OPTION (state, { routerName, data, isPage }) {
-      let option = state.pageOption[routerName] ? state.pageOption[routerName] : {}
+    setPageOption ({ routerName, data, isPage }) {
+      let option = this.$state.pageOption[routerName] ? this.$state.pageOption[routerName] : {}
       if (isPage) {
         option = data
       } else {
         option = Object.assign({}, option, data)
       }
-      state.pageOption[routerName] = option
-      storage.setPageOption(state.pageOption)
+      this.$state.pageOption[routerName] = option
     },
-    CLEAR_PAGE_OPTION (state, routerName) {
-      delete state.pageOption[routerName]
-      storage.setPageOption(state.pageOption)
-    },
-
-    // 设置初始数据
-    SET_INITDATA_FROM_STORAGE (state, { token, pageOption, menuCollapsed }) {
-      if (token) {
-        state.token = token
-      }
-      if (pageOption) {
-        state.pageOption = pageOption
-      }
-      if (menuCollapsed !== null) {
-        // 注意：storage里面存放的是字符串，这里需要转换
-        state.menuCollapsed = menuCollapsed === 'true'
-      }
+    clearPageOption (routerName) {
+      delete this.$state.pageOption[routerName]
     },
   },
+
+})
+
+export const initLisaStore = () => {
+  const instance = useLisaStore()
+  // listen hooks
+  instance.$subscribe((mutation, state) => {
+    // save
+    storage.setLisaStore(state)
+  })
+  // recover
+  const re = storage.getLisaStore()
+  if (re) {
+    instance.$patch({
+      ...re,
+    })
+  }
 }
+
+export default useLisaStore
