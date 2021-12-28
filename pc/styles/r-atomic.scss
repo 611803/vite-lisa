@@ -3,6 +3,7 @@
  * @Author: pujianguo
  * @Date: 2021-03-11 09:17:11
  */
+@import "pc/styles/variables.scss";
 @import "lisa/styles/mixins.scss";
 
 // $important:       !important;
@@ -22,6 +23,27 @@
 // }
 
 // 文本颜色
+.r-text-link {
+  color: var(--r-link-color);
+  cursor: pointer;
+}
+
+.r-text-primary {
+  color: var(--el-text-color-primary);
+}
+
+.r-text-regular {
+  color: var(--el-text-color-regular);
+}
+
+.r-text-secondary {
+  color: var(--el-text-color-secondary);
+}
+
+.r-text-placeholder {
+  color: var(--el-text-color-placeholder);
+}
+
 // .r-text-primary{
 //   color: $uni-color-primary !important;
 // }

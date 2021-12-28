@@ -171,3 +171,22 @@ export const unlimitedForLayer = (cate, pid = 0) => {
   })
   return arr
 }
+
+/**
+ * element-plus校验选中的字段
+ * @param {Object} formRef 当前form对象
+ * @param {Array} fields 要校验的字段
+ * @return {Boolean} 结果
+ */
+export const validateFields = (formRef, fields) => {
+  let count = 0
+  formRef.value.validateField(fields, c => {
+    if (!c) {
+      count++
+    }
+  })
+  if (count === fields.length) {
+    return true
+  }
+  return false
+}
