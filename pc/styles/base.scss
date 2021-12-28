@@ -1,19 +1,20 @@
-@import './mixins.scss';
+@import "./mixins.scss";
 
-html, body{
+html,
+body {
   // background: $html-bgc;
   // color: $color-text;
 }
-#app{
+
+#app {
   width: 100%;
-  height: 100%;
   min-width: 1000px;
+  height: 100%;
 }
 
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
-
 
 .iconfont {
   font-family: "iconfont" !important;
@@ -31,7 +32,7 @@ a {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/*滚动条凹槽的颜色，还可以设置边框属性 */
+/* 滚动条凹槽的颜色，还可以设置边框属性 */
 // *::-webkit-scrollbar-track-piece {
 //   background-color:#f8f8f8;
 //   -webkit-border-radius: 2em;
@@ -44,105 +45,119 @@ a {
 // }
 
 // 布局
-.layout{
+.layout {
+  display: flex;
   width: 100%;
   height: 100%;
-  background-color: #fff;
-  display: flex;
   overflow: hidden;
-  &-menu{
+  background-color: #fff;
+
+  &-menu {
     width: 200px;
     height: 100%;
   }
-  &-right{
-    flex: 1;
+
+  &-right {
     display: flex;
+    flex: 1;
     flex-direction: column;
     overflow: hidden;
-    .layout-header{
-      width: 100%;
-      height: 48px;
-      background-color: #FFFFFF;
-      // box-shadow: 0 1px 2px 0 rgba(9,18,26,0.06), 0 4px 8px 0 rgba(39,56,73,0.08);
-      box-shadow: 0 2px 12px 0 rgba(31, 22, 67, 0.2);
-      min-width: 650px;
+
+    .layout-header {
       z-index: 1;
+      width: 100%;
+      min-width: 650px;
+      height: 48px;
+      background-color: #fff;
+
+      // box-shadow: 0 1px 2px 0 rgba(9,18,26,0.06), 0 4px 8px 0 rgba(39,56,73,0.08);
+      box-shadow: 0 2px 12px 0 rgb(31 22 67 / 20%);
     }
-    .layout-content{
-      flex: 1;
+
+    .layout-content {
       box-sizing: border-box;
-      overflow: hidden;
       display: flex;
-      .component-flex-full{
-        flex: 1;
+      flex: 1;
+      overflow: hidden;
+
+      .component-flex-full {
         display: flex;
+        flex: 1;
         flex-direction: column;
         overflow: hidden;
       }
-      .component-flex-page{
+
+      .component-flex-page {
         flex: 1;
-        overflow: auto;
         padding: 10px 20px;
-        background: #fff;
         margin: 0 20px;
+        overflow: auto;
+        background: #fff;
       }
-      .component-flex-footer{
+
+      .component-flex-footer {
         padding: 10px 0;
+        padding-left: 120px; // 可根据每个页面的label宽度重写
         margin: 0 20px;
         background: #f5f7fa;
-        padding-left: 120px; // 可根据每个页面的label宽度重写
       }
     }
   }
 }
 
-
-html, body{
+html,
+body {
   width: 100%;
   height: 100%;
-  font-family: system-ui,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
 }
 
-a{
+a {
   text-decoration: none;
 }
 
-
 /* *************** table *************** */
 .el-table .el-table__header-wrapper .el-table__header,
-.el-table .el-table__fixed-header-wrapper .el-table__header{
-  tr th{
-    background-color: #e4ebec;
-    color: rgb(50, 69, 88);
+.el-table .el-table__fixed-header-wrapper .el-table__header {
+  tr th {
     font-weight: bold;
+    color: rgb(50 69 88);
+    background-color: #e4ebec;
   }
 }
+
 .el-table td {
   padding: 7px 0;
-  .table-cell-link{
-    cursor: pointer;
+
+  .table-cell-link {
     display: inline-block;
     padding: 0 8px;
     font-weight: bold;
     color: $color-primary;
-    &:hover{
+    cursor: pointer;
+
+    &:hover {
       color: $color-primary-light;
     }
   }
-  .table-cell-more{
-    cursor: pointer;
+
+  .table-cell-more {
     width: 100%;
     color: $color-primary;
-    @include ellipsis();
+    cursor: pointer;
+
+    @include ellipsis;
   }
 }
-.el-table-column--selection .cell{
+
+.el-table-column--selection .cell {
   padding: 0 !important;
 }
 
 // 解决数字输入框中增加、减少的样式问题
-.el-input-number__increase, .el-input-number__decrease{
+.el-input-number__increase,
+.el-input-number__decrease {
   top: 2px;
 }
