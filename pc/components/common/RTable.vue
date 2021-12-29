@@ -1,3 +1,68 @@
+<script setup>
+import { reactive, onMounted, watch, nextTick } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import useLisaStore from 'lisa/pc/store/lisa'
+import { updateRouteQuery } from 'lisa/pc/utils/func'
+const props = defineProps({
+  total: Number,
+  noPage: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const lisaStore = useLisaStore()
+const route = useRoute()
+const router = useRouter()
+
+const pageData = reactive({
+  showPage: true,
+  size: 10,
+  current: 1,
+  realTotal: 0,
+})
+watch(() => props.total, val => {
+  pageData.realTotal = val
+})
+watch(() => route.query, val => {
+  const { limit, offset } = val
+  const thisCurrent = (offset / limit) + 1
+  if (thisCurrent !== pageData.current) {
+    pageData.current = thisCurrent
+  }
+})
+
+onMounted(() => {
+  if (!props.noPage) {
+    pageData.showPage = false
+    nextTick(() => {
+      // 这时候store中肯定有值
+      const pageOption = lisaStore.pageOption[route.name]
+
+      pageData.size = Number(pageOption.limit)
+      pageData.current = Number(pageOption.current)
+      pageData.realTotal = Number(pageOption.total)
+      pageData.showPage = true
+    })
+  }
+})
+
+const handleSizeChange = (val) => {
+  pageData.size = val
+  pageData.current = 1
+  handleCurrentChange()
+}
+const handleCurrentChange = () => {
+  const offset = (pageData.current - 1) * pageData.size
+  updateRouteQuery(route, router, {
+    offset: offset,
+    limit: pageData.size,
+    current: pageData.current,
+    total: pageData.realTotal,
+  })
+}
+</script>
+
 <template>
   <div class="r-table">
     <div class="table-header">
@@ -32,114 +97,51 @@
   </div>
 </template>
 
-<script>
-import { reactive, onMounted, watch, nextTick } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useStore } from 'vuex'
-import { updateRouteQuery } from 'lisa/utils/func'
-
-export default {
-  name: 'r-table',
-  props: {
-    total: Number,
-    noPage: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  setup (props) {
-    const store = useStore()
-    const route = useRoute()
-    const router = useRouter()
-
-    const pageData = reactive({
-      showPage: true,
-      size: 10,
-      current: 1,
-      realTotal: 0,
-    })
-    watch(() => props.total, val => {
-      pageData.realTotal = val
-    })
-    watch(() => route.query, val => {
-      const { limit, offset } = val
-      const thisCurrent = (offset / limit) + 1
-      if (thisCurrent !== pageData.current) {
-        pageData.current = thisCurrent
-      }
-    })
-
-    onMounted(() => {
-      if (!props.noPage) {
-        pageData.showPage = false
-        nextTick(() => {
-          // 这时候store中肯定有值
-          const pageOption = store.state.lisa.pageOption[route.name]
-          pageData.size = Number(pageOption.limit)
-          pageData.current = Number(pageOption.current)
-          pageData.realTotal = Number(pageOption.total)
-          pageData.showPage = true
-        })
-      }
-    })
-
-    const handleSizeChange = (val) => {
-      pageData.size = val
-      pageData.current = 1
-      handleCurrentChange()
-    }
-    const handleCurrentChange = () => {
-      const offset = (pageData.current - 1) * pageData.size
-      updateRouteQuery(route, router, store, {
-        offset: offset,
-        limit: pageData.size,
-        current: pageData.current,
-        total: pageData.realTotal,
-      })
-    }
-
-    return {
-      pageData,
-      handleSizeChange,
-      handleCurrentChange,
-    }
-  },
-}
-</script>
-
 <style lang="scss">
-.r-table{
-  .table-header{
+.r-table {
+  .table-header {
     // margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
-    &-left{
-      .el-form-item{
+
+    &-left {
+      .el-form-item {
         margin-bottom: 10px;
+
         // 解决列表页搜索部分没有对齐的问题
-        .el-form-item__content>.el-date-editor .el-input__inner, .el-form-item__content>.el-select .el-input__inner, .el-form-item__content>.el-button{
+        .el-form-item__content > .el-date-editor .el-input__inner,
+        .el-form-item__content > .el-select .el-input__inner,
+        .el-form-item__content > .el-button {
           vertical-align: top;
         }
       }
     }
-    &-right{
-      .el-button{
+
+    &-right {
+      .el-button {
         margin-bottom: 10px;
       }
     }
   }
-  .table-content{
 
+  .table-content {
+    .el-table--medium .el-table__cell {
+      padding: 5px 0;
+    }
   }
-  .table-footer{
-    margin-top: 10px;
-    height: 32px;
+
+  .table-footer {
     display: flex;
     justify-content: space-between;
+    height: 32px;
+    margin-top: 10px;
+
     &-left{
     }
+
     &-right{
     }
   }
 }
+
 </style>

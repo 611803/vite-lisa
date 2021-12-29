@@ -3,7 +3,7 @@
  * @Author: pujianguo
  * @Date: 2021-04-02 09:41:58
  */
-
+import useLisaStore from 'lisa/pc/store/lisa'
 import { ElMessageBox } from 'element-plus'
 
 // 确认执行dialog
@@ -59,12 +59,13 @@ export const getRouteQuery = (query) => {
   // }
   return q
 }
-export const updateRouteQuery = (route, router, store, obj, clearOtherQuery = false) => {
+export const updateRouteQuery = (route, router, obj, clearOtherQuery = false) => {
+  const lisaStore = useLisaStore()
   let q // 最后设置的query
   let s // 最后保存在store中的query
   let isPage = true
   // 不含分页的query
-  if (!obj.hasOwnProperty('offset') && route.query.offset !== undefined) {
+  if (!Object.prototype.hasOwnProperty.call(obj, 'offset') && route.query.offset !== undefined) {
     if (clearOtherQuery) {
       s = Object.assign({ limit: 10, offset: 0, current: 1, total: 0 }, obj)
       q = Object.assign({ limit: 10, offset: 0 }, obj)
@@ -90,7 +91,7 @@ export const updateRouteQuery = (route, router, store, obj, clearOtherQuery = fa
   }
 
   // 保存到store中
-  store.commit('lisa/SET_PAGE_OPTION', {
+  lisaStore.setPageOption({
     routerName: route.name,
     isPage: isPage,
     data: s,
@@ -98,7 +99,8 @@ export const updateRouteQuery = (route, router, store, obj, clearOtherQuery = fa
   q.t = (new Date()).getTime()
   router.replace({ query: q })
 }
-export const clearRouteQuery = (router, store, routerName) => {
-  store.commit('lisa/CLEAR_PAGE_OPTION', routerName)
+export const clearRouteQuery = (router, routerName) => {
+  const lisaStore = useLisaStore()
+  lisaStore.clearPageOption(routerName)
   router.replace({ query: {} })
 }

@@ -144,67 +144,6 @@ export const confirmExecHandle = (title, text, callback, cancelCallBack = null) 
 //   }).catch(_ => console.log('Oops errors!'))
 // })
 
-/** *************** table route相关 *************** **/
-export const getRouteQuery = (query) => {
-  const q = Object.assign({}, query)
-  delete q.t
-  // 根据需要做转换
-  // if (q.store_ids) {
-  //   q.store_ids = q.store_ids.split(',')
-  // }
-  // 根据需要做转换
-  // if (q.begin_time) {
-  //   q.begin_time = format('submitTime', q.begin_time)
-  // }
-  // if (q.end_time) {
-  //   q.end_time = format('submitTime', q.end_time)
-  // }
-  return q
-}
-export const updateRouteQuery = (route, router, store, obj, clearOtherQuery = false) => {
-  let q // 最后设置的query
-  let s // 最后保存在store中的query
-  let isPage = true
-  // 不含分页的query
-  if (!obj.hasOwnProperty('offset') && route.query.offset !== undefined) {
-    if (clearOtherQuery) {
-      s = Object.assign({ limit: 10, offset: 0, current: 1, total: 0 }, obj)
-      q = Object.assign({ limit: 10, offset: 0 }, obj)
-    } else {
-      isPage = false
-      s = Object.assign({}, route.query, obj, { offset: 0, current: 1 })
-      q = Object.assign({}, route.query, obj, { offset: 0 })
-    }
-  } else { // 分页相关
-    s = Object.assign({}, route.query, obj)
-    // 路由里面不用存放current 和 total
-    delete obj.current
-    delete obj.total
-    q = Object.assign({}, route.query, obj)
-  }
-  delete s.t
-
-  // 清除q中的null，s中的null不清除无影响
-  for (const k in q) {
-    if (q[k] === null) {
-      delete q[k]
-    }
-  }
-
-  // 保存到store中
-  store.commit('lisa/SET_PAGE_OPTION', {
-    routerName: route.name,
-    isPage: isPage,
-    data: s,
-  })
-  q.t = (new Date()).getTime()
-  router.replace({ query: q })
-}
-export const clearRouteQuery = (router, store, routerName) => {
-  store.commit('lisa/CLEAR_PAGE_OPTION', routerName)
-  router.replace({ query: {} })
-}
-
 // 用于调试
 // 在打印json数据时，控制台默认收缩的数据，不方便查看内层数据
 export const console = function (json, flag = 'log') {

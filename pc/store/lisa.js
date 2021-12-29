@@ -26,9 +26,13 @@ const useLisaStore = defineStore({
       this.$state.token = token
       this.$state.userInfo = user
     },
+    setLogout () {
+      this.$state.token = ''
+      this.$state.userInfo = {}
+    },
     // 设置菜单收缩
     setMenuCollapsed (payload) {
-      this.$state.state.menuCollapsed = payload
+      this.$state.menuCollapsed = payload
     },
     setPageOption ({ routerName, data, isPage }) {
       let option = this.$state.pageOption[routerName] ? this.$state.pageOption[routerName] : {}

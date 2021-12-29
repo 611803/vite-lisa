@@ -1,4 +1,4 @@
-@import "./mixins.scss";
+@import "lisa/styles/mixins.scss";
 
 html,
 body {
@@ -135,17 +135,19 @@ a {
     display: inline-block;
     padding: 0 8px;
     font-weight: bold;
-    color: $color-primary;
+
+    // color: $color-primary;
     cursor: pointer;
 
     &:hover {
-      color: $color-primary-light;
+      // color: $color-primary-light;
     }
   }
 
   .table-cell-more {
     width: 100%;
-    color: $color-primary;
+
+    // color: $color-primary;
     cursor: pointer;
 
     @include ellipsis;

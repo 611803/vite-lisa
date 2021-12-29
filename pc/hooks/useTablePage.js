@@ -6,11 +6,13 @@
 
 import { ref, computed, watch, reactive, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useStore } from 'vuex'
-import { getRouteQuery, updateRouteQuery, clearRouteQuery, copy } from 'lisa/utils/func'
+import useLisaStore from 'lisa/pc/store/lisa'
+import { getRouteQuery, updateRouteQuery, clearRouteQuery } from 'lisa/pc/utils/func'
+import { copy } from 'lisa/utils/func'
+import _ from 'lodash'
 
 const useTablePage = (getDataHandle) => {
-  const store = useStore()
+  const lisaStore = useLisaStore()
   const route = useRoute()
   const router = useRouter()
 
@@ -56,18 +58,18 @@ const useTablePage = (getDataHandle) => {
   })
   onBeforeUnmount(() => {
     if (isClearRouterQuery) {
-      clearRouteQuery(router, store, routeName)
+      clearRouteQuery(router, routeName)
     }
   })
   const initRoute = () => {
     // TODO: 捋一下逻辑，添加注释
-    let pageOption = store.state.lisa.pageOption[route.name]
+    let pageOption = lisaStore.pageOption[route.name]
     const query = route.query // 有query.super表示从别的页面跳转过来
     if (query.super || !pageOption) {
       delete query.super
       pageOption = Object.assign({ limit: 10, offset: 0, current: 1, total: 0 }, query, initQuery)
     }
-    updateRouteQuery(route, router, store, pageOption)
+    updateRouteQuery(route, router, pageOption)
   }
 
   const getData = () => {
