@@ -77,7 +77,7 @@ onMounted(() => {
       </el-select>
     </template>
     <template #append>
-      <el-button icon="el-icon-search" @click.stop="onSearch"></el-button>
+      <el-button icon="search" @click.stop="onSearch"></el-button>
     </template>
   </el-input>
 </template>

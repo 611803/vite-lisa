@@ -105,6 +105,12 @@ const handleCurrentChange = () => {
     justify-content: space-between;
 
     &-left {
+      .el-button {
+        margin-bottom: 10px;
+      }
+    }
+
+    &-right {
       .el-form-item {
         margin-bottom: 10px;
 
@@ -114,12 +120,10 @@ const handleCurrentChange = () => {
         .el-form-item__content > .el-button {
           vertical-align: top;
         }
-      }
-    }
 
-    &-right {
-      .el-button {
-        margin-bottom: 10px;
+        &:last-child {
+          margin-right: 0;
+        }
       }
     }
   }
@@ -133,7 +137,8 @@ const handleCurrentChange = () => {
   .table-footer {
     display: flex;
     justify-content: space-between;
-    height: 32px;
+
+    // height: 32px;
     margin-top: 10px;
 
     &-left{
