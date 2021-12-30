@@ -15,7 +15,20 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  allowAfter: { // 时候允许选择之后的年份
+  // 显示在输入框中的格式，也可以控制选择的精确度
+  format: {
+    type: String,
+    default: 'LLL',
+  },
+  defaultTime: {
+    type: String,
+    default: '12:00:00',
+  },
+  placeholder: {
+    type: String,
+    default: '选择时间',
+  },
+  allowAfter: { // 是否允许选择之后的年份
     type: Boolean,
     default: true,
   },
@@ -34,8 +47,7 @@ const disabledDate = (time) => {
 
 watch(() => route.query, n => {
   if (props.isQuery) {
-    // query中是时间戳，要转成需要的格式
-    const time = format('second', n[props.queryKey]) || null
+    const time = n[props.queryKey] || null
     if (time !== selected.value) {
       selected.value = time || null
     }
@@ -52,8 +64,7 @@ const changeHandle = (val) => {
   if (props.isQuery) {
     // 清空时，值为null，不用处理
     const query = {}
-    // element-plus 的 value-format 不支持时间戳，需要自己转
-    query[props.queryKey] = format('timestamp', val) || null
+    query[props.queryKey] = val
     updateRouteQuery(route, router, query)
   } else {
     // 普通下拉框数据绑定
@@ -81,7 +92,9 @@ onMounted(() => {
   <el-date-picker
     v-model="selected"
     type="datetime"
-    placeholder="选择时间"
+    value-format="x"
+    format="YYYY-MM-DD HH:mm:ss"
+    :placeholder="placeholder"
     :disabled-date="disabledDate"
     @change="changeHandle">
   </el-date-picker>

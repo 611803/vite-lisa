@@ -50,7 +50,6 @@ const onSearch = () => {
 }
 
 watch(select, (n, o) => {
-  console.log('change', n, o)
   if (!o) return
   lastSelect.value = o
   inputValue.value = ''

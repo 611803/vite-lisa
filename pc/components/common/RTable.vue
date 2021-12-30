@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onMounted, watch, nextTick } from 'vue'
+import { ref, reactive, onMounted, watch, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import useLisaStore from 'lisa/pc/store/lisa'
 import { updateRouteQuery } from 'lisa/pc/utils/func'
@@ -61,16 +61,39 @@ const handleCurrentChange = () => {
     total: pageData.realTotal,
   })
 }
+
+const isMore = ref(false)
+const changeIsMore = () => {
+  isMore.value = !isMore.value
+}
+
 </script>
 
 <template>
   <div class="r-table">
-    <div class="table-header">
-      <div class="table-header-left">
-        <slot name="handleUpLeftButtons"></slot>
-      </div>
-      <div class="table-header-right">
-        <slot name="handleUpRightButtons"></slot>
+    <div class="table-header-wrap">
+      <div class="table-header" :class="{'show-more': isMore}">
+        <div class="table-header-base">
+          <div class="table-header-base-left">
+            <slot name="handleUpLeftButtons"></slot>
+          </div>
+          <div class="table-header-base-right">
+            <el-form :inline="true">
+              <slot name="handleUpRightButtons"></slot>
+              <el-button type="text" @click="changeIsMore">
+                高级搜索<el-icon class="el-icon--right"><CaretBottom /></el-icon>
+              </el-button>
+            </el-form>
+          </div>
+        </div>
+        <div class="table-header-more">
+          <el-form :inline="true">
+            <slot name="handleUpMore"></slot>
+          </el-form>
+          <el-button type="text" @click="changeIsMore">
+            收起<el-icon class="el-icon--right"><CaretTop /></el-icon>
+          </el-button>
+        </div>
       </div>
     </div>
     <div class="table-content">
@@ -99,31 +122,52 @@ const handleCurrentChange = () => {
 
 <style lang="scss">
 .r-table {
-  .table-header {
-    // margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
+  .table-header-wrap {
+    width: 100%;
+    height: 50px;
+    overflow: hidden;
 
-    &-left {
-      .el-button {
-        margin-bottom: 10px;
+    .table-header {
+      height: 100px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      transition: transform .5s;
+
+      &.show-more {
+        transform: translateY(-50%);
       }
-    }
 
-    &-right {
+      &-base {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 50px;
+
+        &-left {
+          .el-button {
+          }
+        }
+
+        &-right {
+
+        }
+      }
+
+      &-more {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 50px;
+      }
+
       .el-form-item {
-        margin-bottom: 10px;
+        margin-bottom: 0;
 
-        // 解决列表页搜索部分没有对齐的问题
-        .el-form-item__content > .el-date-editor .el-input__inner,
-        .el-form-item__content > .el-select .el-input__inner,
-        .el-form-item__content > .el-button {
-          vertical-align: top;
-        }
-
-        &:last-child {
-          margin-right: 0;
-        }
+        // .el-form-item__content > .el-button {
+        //   vertical-align: top;
+        // }
       }
     }
   }
