@@ -1,6 +1,9 @@
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import { LoginUsers, Users, getUserId } from './data/user'
+import { notifyApiErrorInfo } from 'lisa/pc/utils/notification'
+
+import useLisaStore from 'lisa/pc/store/lisa'
 let _Users = Users
 
 // let checkPageCurrentDelete = function (num) {
@@ -14,12 +17,20 @@ let _Users = Users
 //   }
 // }
 
+const request = axios.create({
+  baseURL: '',
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+
 export default {
   /**
    * mock bootstrap
    */
   bootstrap () {
-    const mock = new MockAdapter(axios)
+    const mock = new MockAdapter(request)
 
     // mock success request
     mock.onGet('/success').reply(200, {
@@ -31,7 +42,7 @@ export default {
       msg: 'failure',
     })
 
-    // 登录
+    // login
     mock.onPost('/login').reply(config => {
       const { username, password } = JSON.parse(config.data)
       return new Promise((resolve, reject) => {
@@ -46,15 +57,15 @@ export default {
           })
 
           if (hasUser) {
-            resolve([200, { code: 200, msg: '请求成功', user }])
+            resolve([200, { code: 200, msg: 'request success', user }])
           } else {
-            resolve([200, { code: 500, msg: '账号或密码错误' }])
+            resolve([200, { code: 500, msg: 'account or password is error' }])
           }
         }, 1000)
       })
     })
 
-    // 获取用户信息
+    // get user info
     mock.onGet(/\/users\/\d+/).reply(config => {
       const id = config.url.split('/users/')[1]
       const user = _Users.find(u => u.id === id)
@@ -67,7 +78,7 @@ export default {
       })
     })
 
-    // 获取用户列表
+    // get user list
     mock.onGet('/users').reply(config => {
       const mockUsers = _Users.filter(user => {
         return true
@@ -78,13 +89,13 @@ export default {
             items: mockUsers,
           }])
           // resolve([300, {
-          //   message: '参数错误'
+          //   message: 'params error'
           // }]);
         }, 1000)
       })
     })
 
-    // 获取用户列表（分页）
+    // get user list (page)
     // mock.onGet('/users/page').reply(config => {
     //   let { size, current } = config.params
     //   let mockUsers = JSON.parse(JSON.stringify(_Users))
@@ -121,7 +132,7 @@ export default {
       })
     })
 
-    // 删除用户
+    // delete user
     mock.onDelete(/\/users\/\d+/).reply(config => {
       const id = config.url.split('/users/')[1]
       _Users = _Users.filter(u => u.id !== id)
@@ -129,13 +140,13 @@ export default {
         setTimeout(() => {
           resolve([200, {
             code: 200,
-            msg: '删除成功',
+            msg: 'delete success',
           }])
         }, 500)
       })
     })
 
-    // 批量删除用户
+    // batch delete user
     mock.onGet('/users/batchremove').reply(config => {
       let { ids } = config.params
       ids = ids.split(',')
@@ -144,14 +155,14 @@ export default {
         setTimeout(() => {
           resolve([200, {
             code: 200,
-            msg: '删除成功',
+            msg: 'delete success',
           }])
         }, 500)
       })
     })
 
-    // 编辑用户
-    mock.onPatch(/\/users\/\d+/).reply(config => {
+    // update user
+    mock.onPut(/\/users\/\d+/).reply(config => {
       const id = config.url.split('/users/')[1]
       const { name, addr, age, birth, sex } = JSON.parse(config.data)
       _Users.some(u => {
@@ -163,18 +174,19 @@ export default {
           u.sex = sex
           return true
         }
+        return false
       })
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve([200, {
             code: 200,
-            msg: '编辑成功',
+            msg: 'update success',
           }])
         }, 500)
       })
     })
 
-    // 新增用户
+    // add user
     mock.onPost('/users').reply(config => {
       const data = JSON.parse(config.data)
       data.id = getUserId()
@@ -183,10 +195,96 @@ export default {
         setTimeout(() => {
           resolve([200, {
             code: 200,
-            msg: '新增成功',
+            msg: 'add success',
           }])
         }, 500)
       })
     })
   },
+}
+
+// white list
+const noAuthWhiteList = [
+  '/apis/core/v1/login',
+  '/apis/core/v1/sign_up',
+  '/apis/core/v1/sign_up_code',
+]
+
+// request interceptors
+request.interceptors.request.use(config => {
+  const lisaStore = useLisaStore()
+  if (lisaStore.token) {
+    config.headers.Authorization = `Bearer ${lisaStore.token}`
+  } else {
+    const url = config.url || ''
+    if (!noAuthWhiteList.includes(url)) {
+      toLogin()
+      return Promise.reject(new Error('not login'))
+    }
+  }
+  console.log('config', config)
+  return config
+}, error => {
+  return Promise.reject(error)
+})
+
+// response interceptors
+request.interceptors.response.use(response => {
+  return response.data
+}, error => {
+  let msg = ''
+  if (error.response) {
+    if (error.response.status === 401) { // no login
+      toLogin()
+      return
+    }
+    if (error.response.data && error.response.data.message) {
+      msg = error.response.data.message
+    } else {
+      msg = error.response.data
+    }
+  } else {
+    msg = error.message
+  }
+  if (msg !== 'not login') {
+    notifyApiErrorInfo(msg)
+  }
+  // console.log('api response error: ', msg)
+  console.log('api response error: ', error)
+  return Promise.reject(msg)
+})
+
+export const toLogin = () => {
+  const lisaStore = useLisaStore()
+  notifyApiErrorInfo('登录信息已过期，请重新登录')
+  lisaStore.setLogout()
+  window.location.href = '#/login'
+}
+
+export const _get = (url, query) => {
+  return request.get(url, { params: query })
+}
+export const _download = (url, query) => {
+  return request.get(url, { params: query, responseType: 'blob' })
+}
+
+export const _post = (url, body) => {
+  return request.post(url, body)
+}
+
+export const _upload = (url, data, config = null) => {
+  // return request.post(url, body, { headers: { 'Content-Type': 'multipart/form-data' } })
+  return request.post(url, data, { headers: { 'Content-Type': 'multipart/form-data' }, ...config })
+}
+
+export const _patch = (url, body) => {
+  return request.patch(url, body)
+}
+
+export const _put = (url, body) => {
+  return request.put(url, body)
+}
+
+export const _delete = (url) => {
+  return request.delete(url)
 }

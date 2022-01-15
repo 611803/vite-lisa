@@ -9,7 +9,6 @@ import { useRoute, useRouter } from 'vue-router'
 import useLisaStore from 'lisa/pc/store/lisa'
 import { getRouteQuery, updateRouteQuery, clearRouteQuery } from 'lisa/pc/utils/func'
 import { copy } from 'lisa/utils/func'
-import _ from 'lodash'
 
 const useTablePage = (getDataHandle) => {
   const lisaStore = useLisaStore()
@@ -121,6 +120,10 @@ const useTablePage = (getDataHandle) => {
     isClearRouterQuery = false
     router.push({ name: `${routeName}_Update`, params: { id: id } })
   }
+  const goDetailPage = (id) => {
+    isClearRouterQuery = false
+    router.push({ name: `${routeName}_Detail`, params: { id: id } })
+  }
 
   return {
     componentFlexPageRef,
@@ -129,6 +132,7 @@ const useTablePage = (getDataHandle) => {
     tableData,
     handleSelectionChange,
     handleRefresh,
+    goDetailPage,
     goAddPage,
     goUpdatePage,
     openAddDialog,

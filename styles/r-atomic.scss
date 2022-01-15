@@ -1,13 +1,12 @@
 /*
- * @Descripttion: 原子类样式
+ * @Descripttion: Atomic Class
  * @Author: pujianguo
- * @Date: 2021-03-11 09:17:11
+ * @Date: 2021-12-31 14:46:34
  */
-@import "lisa/styles/mixins.scss";
 
 // $important:       !important;
 
-// 背景颜色
+// background color
 // .r-bg-color{
 //   background-color: $uni-bg-color !important;
 // }
@@ -21,7 +20,7 @@
 //   background-color: transparent !important;
 // }
 
-// 文本颜色
+// text-color
 .r-text-link {
   color: var(--r-link-color);
   cursor: pointer;
@@ -74,7 +73,7 @@
 //   color: $uni-color-paragraph !important;
 // }
 
-// 文本隐藏行数
+// hidden text line
 .r-text-line-1 {
   @include ellipsis;
 }
@@ -133,45 +132,45 @@ $marginSize: (
 
 @each $key, $value in $marginSize {
   .r-margin#{$key} {
-    margin: $value;
+    margin: $value !important;
   }
   .r-margin-top#{$key} {
-    margin-top: $value;
+    margin-top: $value !important;
   }
   .r-margin-right#{$key} {
-    margin-right: $value;
+    margin-right: $value !important;
   }
   .r-margin-bottom#{$key} {
-    margin-bottom: $value;
+    margin-bottom: $value !important;
   }
   .r-margin-left#{$key} {
-    margin-left: $value;
+    margin-left: $value !important;
   }
 }
 
 // padding
 $paddingSize: (
-  -no: 0 !important,
-  -sm: 8px,
-  "": 16px,
+  -no: 0 ,
+  -sm: 8px ,
+  "": 16px ,
   -lg: 24px
 );
 
 @each $key, $value in $paddingSize {
   .r-padding#{$key} {
-    padding: $value;
+    padding: $value !important;
   }
   .r-padding-top#{$key} {
-    padding-top: $value;
+    padding-top: $value !important;
   }
   .r-padding-right#{$key} {
-    padding-right: $value;
+    padding-right: $value !important;
   }
   .r-padding-bottom#{$key} {
-    padding-bottom: $value;
+    padding-bottom: $value !important;
   }
   .r-padding-left#{$key} {
-    padding-left: $value;
+    padding-left: $value !important;
   }
 }
 
@@ -189,9 +188,13 @@ $paddingSize: (
   font-weight: bold;
 }
 
-// 宽度
+// width
 .r-width-auto {
   width: auto !important;
+}
+
+.r-width-100 {
+  width: 100%;
 }
 
 // flex

@@ -1,7 +1,7 @@
 /*
  * @Descripttion: 公共方法
  * @Author: pujianguo
- * @Date: 2021-04-02 09:41:58
+ * @Date: 2022-01-15 14:46:34
  */
 import * as filterConst from '@/filter/const'
 import * as filterConstLisa from 'lisa/filter/const'
@@ -24,22 +24,30 @@ export const copy = data => {
  * @param {Boolean} isNumber key是否是number类型
  * @return {Array} 转换后的数据
  */
-export const constDataToArray = (obj, firstItem = null, isNumber = false) => {
+export const constDataToArray = (obj, firstItem = null, type = 'string') => {
   const arr = []
-  if (isNumber) {
-    Object.getOwnPropertyNames(obj).forEach(k => {
-      if (k !== 'default') {
-        arr.push({ value: Number(k), label: obj[k] })
-      }
-    })
-  } else {
-    Object.getOwnPropertyNames(obj).forEach(k => {
+  if (type === 'string') {
+    Object.keys(obj).forEach(k => {
       if (k !== 'default') {
         arr.push({ value: k, label: obj[k] })
       }
     })
+  } else if (type === 'number') {
+    Object.keys(obj).forEach(k => {
+      if (k !== 'default') {
+        arr.push({ value: Number(k), label: obj[k] })
+      }
+    })
+  } else if (type === 'boolean') {
+    Object.keys(obj).forEach(k => {
+      if (k !== 'default') {
+        arr.push({ value: k === 'true', label: obj[k] })
+      }
+    })
   }
-  firstItem && arr.unshift(firstItem)
+  if (firstItem) {
+    arr.unshift(firstItem)
+  }
   return arr
 }
 
@@ -138,23 +146,6 @@ export const convert = (num) => {
 }
 
 /**
- * 获取图片URL
- * @param {Blob} file 文件
- * @return {Boolean} 判断结果
- */
-export const getImageObjectURL = (file) => {
-  let url = null
-  if (window.createObjectURL !== undefined) { // basic
-    url = window.createObjectURL(file)
-  } else if (window.URL !== undefined) { // mozilla(firefox)
-    url = window.URL.createObjectURL(file)
-  } else if (window.webkitURL !== undefined) { // webkit or chrome
-    url = window.webkitURL.createObjectURL(file)
-  }
-  return url
-}
-
-/**
  * 无限极分类
  * @param {Array} cate 数组
  * @param {Number} pid 父级id
@@ -189,4 +180,26 @@ export const validateFields = (formRef, fields) => {
     return true
   }
   return false
+}
+
+// json数组排序
+export const sortJson = (arr, key, order = 'asc') => {
+  if (order === 'asc') {
+    return arr.sort((a, b) => {
+      return a[key] < b[key] ? -1 : a[key] > b[key] ? 1 : 0
+    })
+  } else {
+    return arr.sort((a, b) => {
+      return a[key] > b[key] ? -1 : a[key] < b[key] ? 1 : 0
+    })
+  }
+}
+
+// json 数据转 FormData
+export const jsonToFormData = (data) => {
+  const body = new FormData()
+  Object.keys(data).forEach(key => {
+    body.append(key, data[key])
+  })
+  return body
 }

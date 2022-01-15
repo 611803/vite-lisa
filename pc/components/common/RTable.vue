@@ -3,6 +3,7 @@ import { ref, reactive, onMounted, watch, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import useLisaStore from 'lisa/pc/store/lisa'
 import { updateRouteQuery } from 'lisa/pc/utils/func'
+
 const props = defineProps({
   total: Number,
   noPage: {
@@ -17,7 +18,7 @@ const router = useRouter()
 
 const pageData = reactive({
   showPage: true,
-  size: 10,
+  size: lisaStore.pageSize,
   current: 1,
   realTotal: 0,
 })
@@ -48,6 +49,7 @@ onMounted(() => {
 })
 
 const handleSizeChange = (val) => {
+  lisaStore.setPageSize(val)
   pageData.size = val
   pageData.current = 1
   handleCurrentChange()

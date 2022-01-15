@@ -2,11 +2,10 @@
 import { ref, onMounted, nextTick, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { updateRouteQuery } from 'lisa/pc/utils/func'
-import { format } from 'lisa/utils/func'
 
 const emits = defineEmits(['update:modelValue', 'on-change'])
 const props = defineProps({
-  value: [String, null],
+  modelValue: [Number, null],
   queryKey: {
     type: String,
     default: 'time',

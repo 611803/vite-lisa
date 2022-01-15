@@ -1,13 +1,9 @@
 /*
- * @Descripttion: 统一的本地存储
+ * @Descripttion: localStorage
  * @Author: pujianguo
- * @Date: 2021-04-02 14:00:14
+ * @Date: 2021-12-31 14:46:34
  */
 
-const TOKEN = 'token'
-const USERINFO = 'userinfo'
-const MENUCOLLAPSED = 'menu-collapsed'
-const PAGE = 'page'
 const LISA_STORE = 'lisa-store'
 
 export default {
@@ -21,50 +17,5 @@ export default {
   },
   rmLisaStore: () => {
     window.localStorage.removeItem(LISA_STORE)
-  },
-
-  // token
-  setToken: token => {
-    window.localStorage.setItem(TOKEN, token)
-  },
-  getToken: () => {
-    return window.localStorage.getItem(TOKEN)
-  },
-  rmToken: () => {
-    window.localStorage.removeItem(TOKEN)
-  },
-
-  // userinfo
-  setUserInfo: info => {
-    window.localStorage.setItem(USERINFO, JSON.stringify(info))
-  },
-  getUserInfo: () => {
-    const i = window.localStorage.getItem(USERINFO)
-    return i ? JSON.parse(i) : null
-  },
-  rmUserInfo: () => {
-    window.localStorage.removeItem(USERINFO)
-  },
-
-  setMenuCollapsed: (payload) => {
-    window.localStorage.setItem(MENUCOLLAPSED, payload)
-  },
-  getMenuCollapsed: () => {
-    return window.localStorage.getItem(MENUCOLLAPSED)
-  },
-  rmMenuCollapsed: () => {
-    window.localStorage.removeItem(MENUCOLLAPSED)
-  },
-
-  // page
-  setPageOption: (page) => {
-    window.sessionStorage.setItem(PAGE, JSON.stringify(page))
-  },
-  getPageOption: () => {
-    const p = window.sessionStorage.getItem(PAGE)
-    return p ? JSON.parse(p) : null
-  },
-  rmPageOption: () => {
-    window.sessionStorage.removeItem(PAGE)
   },
 }

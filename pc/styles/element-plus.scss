@@ -1,5 +1,48 @@
-// 重写element-plus样式
+// rewritten element-plus style
+
 .el-input__icon {
   width: 25px !important;
   height: inherit !important;
+}
+
+/* *************** table *************** */
+.el-table .el-table__header-wrapper .el-table__header,
+.el-table .el-table__fixed-header-wrapper .el-table__header {
+  tr th {
+    font-weight: bold;
+
+    // TODO: use variables
+    color: rgb(50 69 88);
+    background-color: #e4ebec;
+  }
+}
+
+.el-table td {
+  .table-cell-link {
+    display: inline-block;
+    padding: 0 8px;
+    font-weight: bold;
+    color: var(--el-color-primary);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--el-color-primary-light-1);
+    }
+  }
+
+  .table-cell-more {
+    width: 100%;
+    color: var(--el-color-primary);
+    cursor: pointer;
+
+    @include ellipsis;
+  }
+}
+
+.el-table-column--selection .cell {
+  padding: 0 !important;
+}
+
+.el-select {
+  width: 100%;
 }

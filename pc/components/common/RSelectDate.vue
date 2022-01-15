@@ -27,7 +27,7 @@ const placeholderData = {
 
 const emits = defineEmits(['update:modelValue', 'on-change'])
 const props = defineProps({
-  value: [String, null],
+  modelValue: [String, null],
   // 类型：year(年); month(月); date(日)
   type: {
     type: String,

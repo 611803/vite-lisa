@@ -1,50 +1,19 @@
-@import "lisa/styles/mixins.scss";
-
 html,
 body {
-  // background: $html-bgc;
-  // color: $color-text;
+  width: 100%;
+  height: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
 }
 
 #app {
   width: 100%;
-  min-width: 1000px;
+  min-width: 100vh;
   height: 100%;
 }
 
-a {
-  text-decoration: none;
-}
-
-.iconfont {
-  font-family: "iconfont" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.lisafont {
-  font-family: "iconfont" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* 滚动条凹槽的颜色，还可以设置边框属性 */
-// *::-webkit-scrollbar-track-piece {
-//   background-color:#f8f8f8;
-//   -webkit-border-radius: 2em;
-//   -moz-border-radius: 2em;
-//   border-radius: 2em;
-// }
-// /*滚动条*/
-// *::-webkit-scrollbar {
-//   width: 0;
-// }
-
-// 布局
+// layout
 .layout {
   display: flex;
   width: 100%;
@@ -62,6 +31,7 @@ a {
     flex: 1;
     flex-direction: column;
     overflow: hidden;
+    background: #f5f7fa;
 
     .layout-header {
       z-index: 1;
@@ -72,6 +42,15 @@ a {
 
       // box-shadow: 0 1px 2px 0 rgba(9,18,26,0.06), 0 4px 8px 0 rgba(39,56,73,0.08);
       box-shadow: 0 2px 12px 0 rgb(31 22 67 / 20%);
+    }
+
+    .layout-breadcrumb {
+      box-sizing: border-box;
+      width: 100%;
+      height: 40px;
+      padding-left: 20px;
+      line-height: 40px;
+      background-color: transparent;
     }
 
     .layout-content {
@@ -89,77 +68,38 @@ a {
 
       .component-flex-page {
         flex: 1;
-        padding: 10px 20px;
-        margin: 0 20px;
+        padding: 8px 16px;
+        margin: 0 16px;
         overflow: auto;
         background: #fff;
       }
 
       .component-flex-footer {
         padding: 10px 0;
-        padding-left: 120px; // 可根据每个页面的label宽度重写
-        margin: 0 20px;
+        padding-left: 120px; // Can be rewritten according to the label width of each page
         background: #f5f7fa;
       }
     }
   }
 }
 
-html,
-body {
-  width: 100%;
-  height: 100%;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
-  font-size: 14px;
-  -webkit-font-smoothing: antialiased;
-}
-
 a {
   text-decoration: none;
 }
 
-/* *************** table *************** */
-.el-table .el-table__header-wrapper .el-table__header,
-.el-table .el-table__fixed-header-wrapper .el-table__header {
-  tr th {
-    font-weight: bold;
-    color: rgb(50 69 88);
-    background-color: #e4ebec;
-  }
+/* my custom */
+input {
+  background: none;
+  border: none;
+  outline: none;
 }
 
-.el-table td {
-  padding: 7px 0;
-
-  .table-cell-link {
-    display: inline-block;
-    padding: 0 8px;
-    font-weight: bold;
-
-    // color: $color-primary;
-    cursor: pointer;
-
-    &:hover {
-      // color: $color-primary-light;
-    }
-  }
-
-  .table-cell-more {
-    width: 100%;
-
-    // color: $color-primary;
-    cursor: pointer;
-
-    @include ellipsis;
-  }
+ul,
+li {
+  padding: 0;
+  list-style: none;
 }
 
-.el-table-column--selection .cell {
-  padding: 0 !important;
-}
-
-// 解决数字输入框中增加、减少的样式问题
-.el-input-number__increase,
-.el-input-number__decrease {
-  top: 2px;
+p {
+  margin: 0;
 }

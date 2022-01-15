@@ -1,5 +1,5 @@
 /*
- * @Descripttion:
+ * @Descripttion: 状态管理
  * @Author: pujianguo
  * @Date: 2021-12-28 02:04:06
  */
@@ -13,6 +13,7 @@ const useLisaStore = defineStore({
     userInfo: {},
     menuCollapsed: false,
     pageOption: {},
+    pageSize: 10,
 
   }),
   getters: {
@@ -22,6 +23,9 @@ const useLisaStore = defineStore({
     // },
   },
   actions: {
+    setPageSize (payload) {
+      this.$state.pageSize = payload
+    },
     setLogin ({ token, ...user }) {
       this.$state.token = token
       this.$state.userInfo = user

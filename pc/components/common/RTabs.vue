@@ -46,7 +46,7 @@ watch(() => props.modelValue, n => {
 
 <style lang="scss">
 .r-tabs {
-  padding: 0 20px;
+  padding: 16px 16px 0;
   background: #e4ebf1;
 
   .item {

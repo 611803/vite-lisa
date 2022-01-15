@@ -8,7 +8,7 @@ import { ref, computed, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { copy } from 'lisa/utils/func'
 
-const useTableEditDialog = ({ props, emit, defaultForm, handleAddData, handleUpdateData, handleInitAddData = null, handleInitUpdateData = null, handleGetDetail = null }) => {
+const useTableEditDialog = ({ props, emits, defaultForm, handleAddData, handleUpdateData, handleInitAddData = null, handleInitUpdateData = null, handleGetDetail = null, handleEditSuccess = null }) => {
   const editFormRef = ref(null)
   const thisVisible = ref(false)
   const editFormLoading = ref(false)
@@ -30,7 +30,7 @@ const useTableEditDialog = ({ props, emit, defaultForm, handleAddData, handleUpd
     }
   })
   watch(thisVisible, val => {
-    emit('update:visible', val)
+    emits('update:visible', val)
   })
 
   // 打开弹框
@@ -49,7 +49,6 @@ const useTableEditDialog = ({ props, emit, defaultForm, handleAddData, handleUpd
     // 传入id时，数据需要从接口获取
     if (props.id) {
       handleGetDetail(props.id).then(data => {
-        console.log('data', data)
         editForm.value = data
         thisVisible.value = true
         editFormLoading.value = false
@@ -85,7 +84,11 @@ const useTableEditDialog = ({ props, emit, defaultForm, handleAddData, handleUpd
     const data = copy(editForm.value)
     handleAddData(data).then(res => {
       ElMessage.success('添加成功')
-      _editSuccess()
+      if (handleEditSuccess) {
+        handleEditSuccess()
+      } else {
+        _editSuccess()
+      }
       handleCloseDialog()
       submitBtnLoading.value = false
     }).catch(_ => {
@@ -96,7 +99,11 @@ const useTableEditDialog = ({ props, emit, defaultForm, handleAddData, handleUpd
     const data = copy(editForm.value)
     handleUpdateData(data.id, data).then(res => {
       ElMessage.success('修改成功')
-      _editSuccess()
+      if (handleEditSuccess) {
+        handleEditSuccess()
+      } else {
+        _editSuccess()
+      }
       handleCloseDialog()
       submitBtnLoading.value = false
     }).catch(_ => {
@@ -105,7 +112,7 @@ const useTableEditDialog = ({ props, emit, defaultForm, handleAddData, handleUpd
   }
 
   const _editSuccess = () => {
-    emit('editSuccess')
+    emits('editSuccess')
   }
 
   const resetForm = () => {
